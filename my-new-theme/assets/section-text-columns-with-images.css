@@ -1,0 +1,10 @@
+.text-columns-with-images .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.text-columns-with-images .text-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
