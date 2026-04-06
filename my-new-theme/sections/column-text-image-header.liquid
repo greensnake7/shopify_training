@@ -1,177 +1,42 @@
-{% style %}
-  .page-width {
-    max-width: calc(var(--page-width) + 40px);
-    margin-right:auto;
-    margin-left:auto;
-    padding-right:1.25rem;
-    padding-left:1.25rem;
-  }
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.top_padding_desktop }}px;
-    padding-bottom: {{ section.settings.bottom_padding_desktop }}px;
-  }
-  .pb-3 {
-    padding-bottom: 0.75rem;
-  }
-  .text-columns-with-images__heading {
-    font-size: {{ section.settings.heading_size }}%;
-    text-align: center;
-  }
-  .text-columns-with-images__column {
-    background-color: {% if section.settings.secondary_background == 'column_background' %} {{ section.settings.background_color_light }} {% else %} transparent {% endif %};
-  }
-  .h1, .h2, .h3, .h4, .h5, .h6, .p {
-    
-    text-transform: none;
-    font-family: Cormorant, serif;
-    font-weight: 400;
-    font-style: normal;
-    overflow-wrap: break-word;
-    color: {{ section.settings.heading_color_light }};
-    line-height: 1.25;
-  }
-  .w-full {
-    width: 100%;
-  }
-  .h-full {
-    height: 100%;
-  }
-  .top-0 {
-    top: 0;
-  }
-  .left-0 {
-    left: 0;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat({{ section.settings.column_layout_on_desktop }}, 1fr);
-    gap: {{ section.settings.block_spacing_desktop }}px;
-  }
-  .grid-item {
-    display: flex;
-    {% if section.settings.image_position_desktop == 'top' %} flex-direction: column; {% else %} flex-direction: column-reverse; {% endif %}
-  }
-  
-  .text-columns-with-images__column-content--left{  text-align: left; }
-  .text-columns-with-images__column-content--right{  text-align: right; }
-  .text-columns-with-images__column-content--center{  text-align: center; }
-  
-  .text-columns-with-images__image-style--square {
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    overflow: hidden;
-  }
-  .text-columns-with-images__image-style--rectangle {
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    overflow: hidden;
-  }
-  .text-columns-with-images__image-style--landscape {
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    overflow: hidden;
-  }
-  .text-columns-with-images__image-style--standard {
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    overflow: hidden;
-  }
-  .text-columns-with-images__image-style--round {
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-  .text-columns-with-images__image-style--natural {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-  @media screen and (max-width: 768px) {
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.top_padding_mobile }}px;
-    padding-bottom: {{ section.settings.bottom_padding_mobile }}px;
-  }
-
-  .md\:pb-8 {
-    padding-bottom: 2rem;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: unset;
-    grid-auto-flow: column;
-    grid-auto-columns: {{ 100 | divided_by: section.settings.column_layout_on_mobile }}%; 
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: {{ section.settings.block_spacing_mobile }}px;
-  }
-  .grid-item {
-    display: flex;
-    {% if section.settings.image_position_mobile == 'top' %} flex-direction: column; {% else %} flex-direction: column-reverse; {% endif %}
-    scroll-snap-align: start;
-    width: 100% ;
-  }
-  }
-
-
-{% endstyle %}
-
-
-<div class="text-columns-with-images section section-{{ section.id }}-padding text-columns-with-images__section--{{ section.settings.secondary_background }} text-columns-with-images__image--{{ section.settings.image_style }} {% if section.settings.enable_carousel_on_desktop %}carousel{% endif %} {% if section.settings.enable_swipe_on_mobile %}swipe{% endif %} {% if section.settings.enable_next_previous_arrows_on_mobile %}next-previous-arrows{% endif %} {% if section.settings.make_section_full_width_desktop %}full-width-desktop{% endif %} {% if section.settings.make_section_full_width_mobile %}full-width-mobile{% endif %}">
+<div class="text-columns-with-images section">
   <div class="page-width">
     {% if section.settings.section_heading != blank %}
-      <div class="pb-3 md:pb-8">
-        <div class="text-columns-with-images__heading {{ section.settings.heading_tag }} text-columns-with-images__heading--{{ section.settings.heading_marker }} ">{{ section.settings.section_heading }}</div>
-      </div>
+      <h2 class="section-heading">{{ section.settings.section_heading }}</h2>
     {% endif %}
-        <div class="grid ">
-            {% for block in section.blocks %}
-                <div class=" grid-item text-columns-with-images__column text-columns-with-images__column-content--{{ section.settings.column_content_alignment }} text-columns-with-images__position--{{ section.settings.image_position }}">
-                    <div class ="text-columns-with-images__image text-columns-with-images__image-style--{{ section.settings.image_style }}">
-                        {% if block.settings.column_image != blank %}
-                            {% assign column_image_url = block.settings.linked_product.featured_image | default: block.settings.linked_collection.image | default: block.settings.column_image %}
-                            {{  column_image_url | image_url: width: 1780 | image_tag: 
-                                widths: '225,375,450,600,750,900,1100,1500,1780,2000',
-                                sizes: "
-                                    (min-width: 1024px) 466px, 
-                                    (min-width: 768px) calc((100vw - 5rem) / 2), 
-                                    calc((100vw) / 1)
-                                ",
-                                class: "w-full h-full top-0 left-0" }}
-                            {% else %}
-                                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-                        {% endif %}
-                    </div>
-                    <div class="text-columns-with-images__column-text">
-                        {% if block.settings.column_heading != blank %}
-                            <p class="h3" style= "font-size: {{ block.settings.heading_size }}%;">{{ block.settings.column_heading }}</p>
-                        {% endif %}
-                        {% if block.settings.column_text != blank %}
-                            <p class="text-columns-with-images__column-content">{{ block.settings.column_text }}</p>
-                        {% endif %}
-                        {% if block.settings.button_label != blank %}
-                            <button  class=" button button--{{ block.settings.button_style }}"
-                                onclick="window.open.('{{ block.settings.button_url | default: '#' }}', '{% if block.settings.open_button_link_in_a_new_window %}__blank{% else %}__self{% endif %}')"
-                                {% if block.settings.open_button_link_in_a_new_window %} target="_blank" rel="noopener"{% endif %}
-                            >
-                                {{ block.settings.button_label }}
-                            </button>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
+    <div class="grid grid--{{ section.settings.column_layout_on_desktop }}-up">
+      {% for block in section.blocks %}
+        <div class="gid__item text-columns-with-images__column text-columns-with-images__column--{{ section.settings.column_content_alignment }} text-columns-with-images__column--image-{{ section.settings.image_position }}">
+          {% if block.settings.column_image != blank %}
+            <img width="100%" height="auto" loading="lazy" src="{{ block.settings.column_image | image_url: width: 500 }}" alt="{{ block.settings.column_heading }}">
+          {% endif %}
+          {% if block.settings.column_heading != blank %}
+            <h3>{{ block.settings.column_heading }}</h3>
+          {% endif %}
+          {% if block.settings.column_text != blank %}
+            <div class="column-text">{{ block.settings.column_text }}</div>
+          {% endif %}
+          {% if block.settings.button_label != blank %}
+            <button  class=" button button--{{ block.settings.button_style }}"
+                onclick="window.open.('{{ block.settings.button_url | default: '#' }}', '{% if block.settings.open_button_link_in_a_new_window %}__blank{% else %}__self{% endif %}')"
+                {% if block.settings.open_button_link_in_a_new_window %} target="_blank" rel="noopener"{% endif %}>
+                {{ block.settings.button_label }}
+            </button>
+          {% endif %}
         </div>
+      {% endfor %}
+    </div>
   </div>
 </div>
 
 {% schema %}
 {
-    "name": "Text columns with images",
+    "name": "Columns text-image header",
     "tag": "section",
     "class": "text-columns-with-images",
-    "disabled_on": {
-        "groups": ["header", "footer"]
+    "enabled_on": {
+        "groups": ["header"]
     },
+    "limit": 1,
     "settings": [
         {
         "type": "paragraph",
@@ -244,7 +109,6 @@
                 "label": "p"
             }
         ],
-        "default": "h2"
         },
         {
         "type": "select",
@@ -605,16 +469,6 @@
             "label": "Image link"
             },
             {
-            "type": "product",
-            "id": "linked_product",
-            "label": "Linked product"
-            },
-            {
-            "type": "collection",
-            "id": "linked_collection",
-            "label": "Linked collection"
-            },
-            {
             "type": "checkbox",
             "id": "open_this_link_in_a_new_window",
             "label": "Open this link in a new window"
@@ -661,7 +515,7 @@
             "type": "inline_richtext",
             "id": "column_text",
             "label": "Text",
-            "default": "Pair text with an image to focus on your chosen product, collection, or blog post."
+            "default": "Pair text wwith an image to focus on your chosen product, collection, or blog post."
             },
             {
                 "type": "text",

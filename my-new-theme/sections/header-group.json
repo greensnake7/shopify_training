@@ -6,9 +6,16 @@
     "header": {
       "type": "header",
       "settings": {}
-    }
+    },
+    // "text-columns-with-images": {
+    //   "type": "text-columns-with-images-header",
+    //   "settings": {
+    //     "section_heading": "Text columns with images"
+    //   }
+    // }
   },
   "order": [
-    "header"
+    "header",
+    // "text-columns-with-images"
   ]
 }

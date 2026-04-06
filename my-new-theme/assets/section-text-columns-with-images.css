@@ -1,4 +1,4 @@
-.text-columns-with-images .grid {
+/* .text-columns-with-images .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
@@ -7,4 +7,4 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
+} */

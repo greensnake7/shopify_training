@@ -24,6 +24,8 @@
     {% render 'meta-tags' %}
 
     {{ content_for_header }}
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4/dist/css/splide.min.css"> -->
   </head>
 
   <body>
@@ -32,5 +34,25 @@
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
+
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4/dist/js/splide.min.js" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.splide').forEach(function(el) {
+          new Splide(el, {
+          type: 'slide',
+          perPage: 1,
+          gap: '1rem',
+          pagination: true,
+          arrows: false,
+          breakpoints: {
+            768: { perPage: 1 },
+            1024: { perPage: 2 },
+            1440: { perPage: 3 }
+          }
+          }).mount();
+       });
+      });
+    </script> {% endcomment %}
   </body>
 </html>
