@@ -10,16 +10,69 @@
     padding-top: {{ section.settings.top_padding_desktop }}px;
     padding-bottom: {{ section.settings.bottom_padding_desktop }}px;
   }
+  .pb-8 {
+    padding-bottom: 2rem;
+  }
+  .pt-8 {
+    padding-top: 2rem;
+  }
   .pb-3 {
     padding-bottom: 0.75rem;
   }
+  .pt-3 {
+    padding-top: 0.75rem;
+  }
+
   .text-columns-with-images__heading {
-    font-size: {{ section.settings.heading_size }}%;
+    font-size: calc({{ section.settings.heading_size }} /100 * 2.7rem) ;
     text-align: center;
   }
-  .text-columns-with-images__column {
+  .button--primary {
+    border: none;
+    background-color: rgb(38, 61, 48);
+    color: rgb(255, 255, 255);
+  }
+  .button--secondary {
+    border: 1px solid rgb(38, 61, 48);
+    background-color: transparent;
+    color: rgb(31, 31, 31);
+  }
+  .button {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  .button:hover {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+  .spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+    display: none;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .bg-section {
+    background-color: {% if section.settings.secondary_background == 'section_background' %} {{ section.settings.background_color_light }} {% else %} transparent {% endif %};
+  }
+  .bg-column {
     background-color: {% if section.settings.secondary_background == 'column_background' %} {{ section.settings.background_color_light }} {% else %} transparent {% endif %};
   }
+  .text-[#acacac] {
+    color: #acacac;
+  }
+
+  .bg-[#c9c9c9] {
+    background-color: #c9c9c9;
+   }
   .h1, .h2, .h3, .h4, .h5, .h6, .p {
     
     text-transform: none;
@@ -27,7 +80,7 @@
     font-weight: 400;
     font-style: normal;
     overflow-wrap: break-word;
-    color: {{ section.settings.heading_color_light }};
+    color: rgba(31, 31, 31);
     line-height: 1.25;
   }
   .w-full {
@@ -93,8 +146,16 @@
     padding-bottom: {{ section.settings.bottom_padding_mobile }}px;
   }
 
-  .md\:pb-8 {
-    padding-bottom: 2rem;
+  .pb-3 {
+    padding-bottom: 0.75rem;
+  }
+  .pt-3 {
+    padding-top: 0.75rem;
+  }
+
+  .text-columns-with-images__heading {
+    font-size: calc({{ section.settings.heading_size }}/ 100 * 1.62rem);
+    text-align: center;
   }
   .grid {
     display: grid;
@@ -117,46 +178,67 @@
 {% endstyle %}
 
 
-<div class="text-columns-with-images section section-{{ section.id }}-padding text-columns-with-images__section--{{ section.settings.secondary_background }} text-columns-with-images__image--{{ section.settings.image_style }} {% if section.settings.enable_carousel_on_desktop %}carousel{% endif %} {% if section.settings.enable_swipe_on_mobile %}swipe{% endif %} {% if section.settings.enable_next_previous_arrows_on_mobile %}next-previous-arrows{% endif %} {% if section.settings.make_section_full_width_desktop %}full-width-desktop{% endif %} {% if section.settings.make_section_full_width_mobile %}full-width-mobile{% endif %}">
+<div class="bg-section text-columns-with-images section section-{{ section.id }}-padding {% if section.settings.enable_carousel_on_desktop %}carousel{% endif %} {% if section.settings.enable_swipe_on_mobile %}swipe{% endif %} {% if section.settings.enable_next_previous_arrows_on_mobile %}next-previous-arrows{% endif %} {% if section.settings.make_section_full_width_desktop %}full-width-desktop{% endif %} {% if section.settings.make_section_full_width_mobile %}full-width-mobile{% endif %}">
   <div class="page-width">
     {% if section.settings.section_heading != blank %}
-      <div class="pb-3 md:pb-8">
-        <div class="text-columns-with-images__heading {{ section.settings.heading_tag }} text-columns-with-images__heading--{{ section.settings.heading_marker }} ">{{ section.settings.section_heading }}</div>
+      <div class="pb-3 pb-8">
+        <div class="text-columns-with-images__heading h2">{{ section.settings.section_heading }}</div>
       </div>
     {% endif %}
         <div class="grid ">
             {% for block in section.blocks %}
-                <div class=" grid-item text-columns-with-images__column text-columns-with-images__column-content--{{ section.settings.column_content_alignment }} text-columns-with-images__position--{{ section.settings.image_position }}">
-                    <div class ="text-columns-with-images__image text-columns-with-images__image-style--{{ section.settings.image_style }}">
-                        {% if block.settings.column_image != blank %}
-                            {% assign column_image_url = block.settings.linked_product.featured_image | default: block.settings.linked_collection.image | default: block.settings.column_image %}
+                <div class=" grid-item bg-column text-columns-with-images__column-content--{{ section.settings.column_content_alignment }} text-columns-with-images__position--{{ section.settings.image_position }}">
+                    <div class =" text-columns-with-images__image text-columns-with-images__image-style--{{ section.settings.image_style }}">
+                        {% if block.settings.column_image != blank or block.settings.image_url != blank or block.settings.linked_product != blank or block.settings.linked_collection != blank %}
+                            {% assign column_image_url = block.settings.linked_product.featured_image | default: block.settings.linked_collection.image | default: block.settings.image_url | default: block.settings.column_image %}
                             {{  column_image_url | image_url: width: 1780 | image_tag: 
                                 widths: '225,375,450,600,750,900,1100,1500,1780,2000',
-                                sizes: "
-                                    (min-width: 1024px) 466px, 
+                                sizes: '
+                                    (min-width: 1024px) 466px,  
                                     (min-width: 768px) calc((100vw - 5rem) / 2), 
-                                    calc((100vw) / 1)
-                                ",
-                                class: "w-full h-full top-0 left-0" }}
-                            {% else %}
-                                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                                    calc((100vw) / 1)',
+                                class: 'w-full h-full top-0 left-0 '
+
+                            }}
+                        {% else %}
+                            {{ 'image' | placeholder_svg_tag: 'placeholder-svg w-full h-full top-0 left-0 bg-[#c9c9c9] text-[#acacac]' }}
                         {% endif %}
                     </div>
                     <div class="text-columns-with-images__column-text">
                         {% if block.settings.column_heading != blank %}
-                            <p class="h3" style= "font-size: {{ block.settings.heading_size }}%;">{{ block.settings.column_heading }}</p>
+                            <p class="h3" style="font-size: calc({{ block.settings.heading_size }}/100 * 1.35rem);">{{ block.settings.column_heading }}</p>
                         {% endif %}
                         {% if block.settings.column_text != blank %}
                             <p class="text-columns-with-images__column-content">{{ block.settings.column_text }}</p>
                         {% endif %}
-                        {% if block.settings.button_label != blank %}
-                            <button  class=" button button--{{ block.settings.button_style }}"
-                                onclick="window.open.('{{ block.settings.button_url | default: '#' }}', '{% if block.settings.open_button_link_in_a_new_window %}__blank{% else %}__self{% endif %}')"
-                                {% if block.settings.open_button_link_in_a_new_window %} target="_blank" rel="noopener"{% endif %}
-                            >
+                        {% if block.settings.button_label != blank and block.settings.linked_product == empty and block.settings.linked_collection == empty  %}
+                            <button  class="w-full pb-3 pt-3 button button--{{ block.settings.button_style }}"
+                                onclick="window.open('{{ block.settings.button_url | default: '#' }}', '{% if block.settings.open_button_link_in_a_new_window %}_blank{% else %}_self{% endif %}')"
+                                {% if block.settings.open_button_link_in_a_new_window %} target="_blank" rel="noopener"{% endif %}>
                                 {{ block.settings.button_label }}
                             </button>
                         {% endif %}
+                        {% if block.settings.linked_product != blank %}
+                            {% if block.settings.linked_product.variants_count == 1 %}
+                                <button class="add-to-cart-button button w-full pb-3 pt-3 button--{{ block.settings.button_style }}" 
+                                    data-variant-id="{{ block.settings.linked_product.selected_or_first_available_variant.id }}">
+                                    {% if block.settings.linked_product.selected_or_first_available_variant.available %}
+                                        <span class="button-text">Add to cart</span>
+                                        <div class="spinner"></div>
+                                    {% else %}
+                                        <span class="button-text">Sold out </span>
+                                    {% endif %}
+                                </button>
+                            {% else %}
+                                <button class="w-full pb-3 pt-3 button button--{{ block.settings.button_style }}"
+                                        onclick="window.open('{{ block.settings.linked_product.url }}', '{% if block.settings.open_button_link_in_a_new_window %}_blank{% else %}_self{% endif %}')"`
+                                        {% if block.settings.open_button_link_in_a_new_window %} target="_blank" rel="noopener"{% endif %}>
+                                    <span class="button-text">View product</span>
+                                    <div class="spinner"></div>
+                                </button>
+                            {% endif %}
+                        {% endif %}
+
                     </div>
                 </div>
             {% endfor %}

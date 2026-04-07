@@ -32,8 +32,12 @@
     {% sections 'header-group' %}
 
     {{ content_for_layout }}
+    
+    {%- section 'cart-drawer' -%}
 
     {% sections 'footer-group' %}
+
+    
 
     {% comment %} <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4/dist/js/splide.min.js" defer></script>
     <script>
@@ -54,5 +58,6 @@
        });
       });
     </script> {% endcomment %}
+    <script src="{{ 'add-to-cart.js' | asset_url }}" defer></script>
   </body>
 </html>
