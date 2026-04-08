@@ -191,14 +191,14 @@
                     <div class =" text-columns-with-images__image text-columns-with-images__image-style--{{ section.settings.image_style }}">
                         {% if block.settings.column_image != blank or block.settings.image_url != blank or block.settings.linked_product != blank or block.settings.linked_collection != blank %}
                             {% assign column_image_url = block.settings.linked_product.featured_image | default: block.settings.linked_collection.image | default: block.settings.image_url | default: block.settings.column_image %}
-                            {{  column_image_url | image_url: width: 1780 | image_tag: 
+                            {{  column_image_url | image_url: width: 2000 | image_tag: 
                                 widths: '225,375,450,600,750,900,1100,1500,1780,2000',
                                 sizes: '
                                     (min-width: 1024px) 466px,  
                                     (min-width: 768px) calc((100vw - 5rem) / 2), 
                                     calc((100vw) / 1)',
+                                loading: 'lazy',
                                 class: 'w-full h-full top-0 left-0 '
-
                             }}
                         {% else %}
                             {{ 'image' | placeholder_svg_tag: 'placeholder-svg w-full h-full top-0 left-0 bg-[#c9c9c9] text-[#acacac]' }}
