@@ -1,0 +1,20 @@
+  <div class="cart-drawer__content">
+        <form action="{{ routes.cart_url }}" method="post">
+            <div class="grid-cart-drawer">
+                {% for item in cart.items %}
+                        <div class="grid-item">
+                             {% render 'image', image: item.image, url: item.url %}
+                        </div>
+                        <div class="grid-item">
+                            <p>{{ item.product.title }}</p>
+                            {{ 'cart.remove' | t | link_to: item.url_to_remove }}
+                        </div>
+                        <div class="grid-item">
+                            <input type="text" name="updates[]" value="{{ item.quantity }}">
+                            <input type="submit" value="{{ 'cart.update' | t }}">
+                        </div>
+                {% endfor %}
+            </div>
+            <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
+        </form>
+  </div>

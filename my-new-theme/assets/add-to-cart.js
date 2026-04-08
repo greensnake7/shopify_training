@@ -7,12 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const buttonText = this.querySelector('.button-text');
             const spinner = this.querySelector('.spinner');
 
-            // Show spinner and hide text
             if (buttonText) buttonText.style.display = 'none';
             if (spinner) spinner.style.display = 'block';
 
             try {
-                const response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+                const response = await fetch(window.Shopify.routes.root + 'cart/add.js' + '?sections=cart,items-on-cart,header', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -27,27 +26,36 @@ document.addEventListener('DOMContentLoaded', function() {
                         ]
                     })
                 });
+                console.log('Add to cart response:', response);
 
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Product added to cart:', data);
+                    const header = document.querySelector('#header');
+                    if (header) {
+                        header.outerHTML = data.sections.header;
+                    }
 
-                    const cart = await fetch(window.Shopify.routes.root + 'cart.js').then(res => res.json());
-                    const cartItemCount = cart.item_count;
+                    const itemOnCart = document.querySelector('.cart-drawer__content');
+                    console.log('Cart drawer element:', itemOnCart);
+                    if (itemOnCart) {
+                        itemOnCart.outerHTML = data.sections['items-on-cart'];
+                        
+                    }
+                    // const cart = await fetch(window.Shopify.routes.root + 'cart.js').then(res => {const cartData = res.json(); console.log('Cart data:', cartData); return cartData;});
+                    // const cartItemCount = cart.item_count;
 
-                    document.querySelectorAll('.cart-item-count').forEach(element => {
-                        element.textContent = cartItemCount;
-                    });
+                    // document.querySelectorAll('.cart-item-count').forEach(element => {
+                    //     element.textContent = cartItemCount;
+                    // });
 
-                    console.log('Cart updated. Item count:', cartItemCount);
                     showNotification('Sản phẩm đã thêm vào giỏ hàng', 'success');
                     openCartDrawer();
                 }
             } catch (error) {
-                console.error(error);
+                console.log(error);
                 showNotification('Lỗi: ' + error.message, 'error');
             } finally {
-                // Hide spinner and show text
                 if (spinner) spinner.style.display = 'none';
                 if (buttonText) buttonText.style.display = 'inline';
             }
