@@ -156,63 +156,6 @@
                                         <span class="button-text">Sold out </span>
                                     {% endif %}
                                 </button>
-                                {% comment %} <script>
-                                    document.addEventListener('alpine:init',() => {
-                                        Alpine.data('addToCart',() => ({
-                                            loading: false,
-        async addToCart(variantId) {
-            this.loading = true;
-
-            try {
-                const response = await fetch(window.Shopify.routes.root + 'cart/add.js' + '?sections=cart,items-on-cart,header', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        items: [
-                            {
-                                id: variantId,
-                                quantity: 1
-                            }
-                        ]
-                    })
-                });
-                console.log('Add to cart response:', response);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Product added to cart:', data);
-                    const header = document.querySelector('#header');
-                    if (header) {
-                        header.outerHTML = data.sections.header;
-                    }
-
-                    const itemOnCart = document.querySelector('.cart-drawer__content');
-                    console.log('Cart drawer element:', itemOnCart);
-                    if (itemOnCart) {
-                        itemOnCart.outerHTML = data.sections['items-on-cart'];
-                        
-                    }
-
-                    showNotification('Sản phẩm đã thêm vào giỏ hàng', 'success');
-                    {% comment %} openCartDrawer(); {% endcomment %}
-                }
-            } catch (error) {
-                console.log(error);
-                showNotification('Lỗi: ' + error.message, 'error');
-            } finally {
-                this.loading = false;
-                this.open_cart_drawer = true;
-            }
-        },
-
-                                        }))
-                                    
-                                    })
-
-                                </script> {% endcomment %}
                               </div>
                             {% else %}
                                 <button class="w-full pb-3 pt-3 cursor-pointer transition-transform duration-300 ease-in hover:scale-95 hover:opacity-90 button--{{ block.settings.button_style }}"

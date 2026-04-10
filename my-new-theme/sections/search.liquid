@@ -65,6 +65,122 @@
 {% schema %}
 {
   "name": "t:general.search",
-  "settings": []
+  "settings": [
+    {
+      "type":"header",
+      "content": "Filtering and sorting"
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable filtering",
+      "id": "enable_filtering",
+      "info": "Learn how to [customize filters]",
+      "default": true
+    },
+    {
+      "type": "select",
+      "label": "Desktop filter layout",
+      "id": "desktop_filter_layout",
+      "info": "Drawer is the default mobile layout.",
+      "options": [
+        {
+          "value": "drawer",
+          "label": "Drawer"
+        },
+        {
+          "value": "aside",
+          "label": "Aside"
+        },
+        {
+          "value": "above",
+          "label": "Above"
+        }
+      ],
+      "default": "above"
+    },
+    {
+      "type": "checkbox",
+      "label": "Hide filters by default",
+      "id": "hide_filters_by_default",
+      "info": "Filters are hidden by default in Aside and Above layouts. Click 'Filters' above the grid to view them.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "label": "Expand all filters by default",
+      "id": "expand_all_filters_by_default",
+      "info": "Only applies to Drawer and Aside filter type.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable sticky toolbar",
+      "id": "enable_sticky_toolbar",
+      "default": true
+    },
+    {
+      "type":"select",
+      "label": "Toolbar edge style",
+      "id": "toolbar_edge_style",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "rounded",
+          "label": "Rounded"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable sorting",
+      "id": "enable_sorting",
+      "default":true
+    },
+    {
+      "type": "header",
+      "content": "Product cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default":false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_rating",
+      "label": "Show product rating",
+      "default":true,
+      "info": "To display a rating, add a product rating app. [Learn more]"
+    },
+        {
+      "type": "checkbox",
+      "id": "show_highlighted_features",
+      "label": "Show highlighted features",
+      "default":true
+    },
+        {
+      "type": "checkbox",
+      "id": "show_highlighted_attributes",
+      "label": "Show highlighted attributes",
+      "default":false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_Quick_View_button",
+      "label": "Show Quick View button",
+      "default":true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description_on_list_view",
+      "label": "Show description on list view",
+      "default":true
+    },
+  ]
 }
 {% endschema %}

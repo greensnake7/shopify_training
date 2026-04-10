@@ -79,5 +79,262 @@
         "default": 4
       }
     ]
+  },
+  {
+    "name": "Search and navigation",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Search"
+      },
+      {
+        "type": "checkbox",
+        "label": "Enable search",
+        "id": "enable_search",
+        "default":true
+      },
+      {
+        "type": "select",
+        "label": "Position on mobile",
+        "id": "position_on_mobile",
+        "options": [
+          {
+            "value": "header",
+            "label": "Header"
+          },
+          {
+            "value": "mobile_navigation",
+            "label": "Mobile navigation"
+          }
+        ],
+        "default": "header"
+      },
+      {
+        "type": "checkbox",
+        "label": "Enable refined search box",
+        "id": "enable_refinded_search_box",
+        "default": false
+      },
+      {
+        "type": "select",
+        "label": "Search results",
+        "id": "search_results",
+        "info": "Setup the same as settings in the Search & Discovery app > Settings > Search relevance in admin. If the two values are different, the expected search results cannot be shown when searching, which might cause customers' confusion.",
+        "default": "all_content",
+        "options": [
+          {
+            "value": "all_content",
+            "label": "All content"
+          },
+          {
+            "value": "products_only",
+            "label": "Products only"
+          },
+          {
+            "value": "products_and_collection",
+            "label": "Products and collection"
+          },
+          {
+            "value": "products_page_and_article",
+            "label": "Product, page and article"
+          },
+          {
+            "value": "product_and_page",
+            "label": "Product and page"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "label": "Enable product suggestions",
+        "id": "enable_product_suggestions",
+        "default":true,
+        "info": "Live search results. Not available in all languages."
+      },
+      {
+        "type": "checkbox",
+        "label": "Show vendor",
+        "id": "show_vendor",
+        "default":true,
+      },
+      {
+        "type": "checkbox",
+        "label": "Show price",
+        "id": "show_price",
+        "default":true,
+      },
+      {
+        "type": "range",
+        "label": "Desktop maximum results",
+        "id": "desktop_maximun_results",
+        "default": 6,
+        "min": 1,
+        "max": 10,
+        "step": 1
+      },
+      {
+        "type": "range",
+        "label": "Mobile maximum results",
+        "id": "mobile_maximun_results",
+        "default": 3,
+        "min": 1,
+        "max": 6,
+        "step": 1
+      },
+      {
+        "type": "checkbox",
+        "label": "Show 'View more' button ",
+        "id": "show_view_more_button",
+        "default":true,
+      },
+      {
+        "type": "collection",
+        "label": "Popular products search",
+        "id": "popular_products_search",
+      },
+      {
+        "type": "collection",
+        "label": "Search recommendation",
+        "id": "search_recommendation",
+      },
+      {
+        "type": "range",
+        "label": "Popular products search limit",
+        "id": "popular_products_search_limit",
+        "default": 6,
+        "min": 1,
+        "max": 6,
+        "step": 1
+      },
+      {
+        "type": "select",
+        "label": "Search box layout",
+        "id": "search_box_layout",
+        "options": [
+          {
+            "value": "collage",
+            "label": "Collage"
+          },
+          {
+            "value": "2_columns",
+            "label": "2 columns"
+          }
+        ],
+        "default": "collage"
+      },
+      {
+        "type": "header",
+        "content": "Search prompts"
+      },
+      {
+        "type": "paragraph",
+        "content": "This will type in placeholder text into the search input, and provide a quick way to introduce customers to what the store sells."
+      },
+      {
+        "type": "text",
+        "label": "Prompt text 1 (default)",
+        "id": "prompt_text_1",
+        "default": "Search for products"
+      },
+      {
+        "type": "text",
+        "label": "Prompt text 2",
+        "id": "prompt_text_2",
+        "default": "Search for articles"
+      },
+      {
+        "type": "text",
+        "label": "Prompt text 3",
+        "id": "prompt_text_3",
+        "default": "Search for collections"
+      },
+      {
+        "type": "select",
+        "label": "Font",
+        "id": "font",
+        "options": [
+          {
+            "value": "body_font",
+            "label": "Body font"
+          },
+          {
+            "value": "heading_font",
+            "label": "Heading font"
+          }
+        ],
+        "default": "body_font"
+      },
+      {
+        "type": "checkbox",
+        "label": "Enable search prompts on mobile",
+        "id": "enable_search_prompts_on_mobile",
+        "default":true,
+        "info": "Enable this only if your prompts are short, as space is limited on mobile."
+      },
+      {
+        "type": "header",
+        "content": "Search exclusion"
+      },
+      {
+        "type": "paragraph",
+        "content": "Exclude collections from in-store search and automatic recommendations."
+      },
+      {
+        "type": "collection",
+        "label": "Exclude collections",
+        "id": "exclude_collections",
+      },
+      {
+        "type": "checkbox",
+        "label": "Also hide products in collection(s)",
+        "id": "also_hide_products_in_collection",
+        "default":false,
+        "info": "Shopify now supports the Unlisted product status, which can hide products from customer discovery while keeping them available for purchase. Learn more in our user guide."
+      },
+      {
+        "type": "header",
+        "content": "Speech search"
+      },
+      {
+        "type": "checkbox",
+        "label": "Enable speech search",
+        "default":true,
+        "id": "enable_speech_search",
+        "info": "Speech search is only available on Chrome for desktop or Android (will not work on iPhone)."
+      },
+      {
+        "type": "color",
+        "label": "Speech pulse color (light)",
+        "id": "speech_pulse_color_light"
+      },
+      {
+        "type": "color",
+        "label": "Speech pulse color (dark)",
+        "id": "speech_pulse_color_dark"
+      },
+      {
+        "type": "header",
+        "content": "Breadcrumbs"
+      },
+      {
+        "type": "checkbox",
+        "default":true,
+        "label": "Show breadcrumbs",
+        "id": "show_breadcrumbs"
+      },
+      {
+        "type": "select",
+        "label": "Breadcrumb separator",
+        "id": "breadcrumb_separator",
+        "options": [
+          {
+            "value": "/",
+            "label": "/"
+          }
+        ]
+      }
+
+    ]
+
   }
 ]

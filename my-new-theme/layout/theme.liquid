@@ -119,8 +119,49 @@
               closeCartDrawer() {
                 this.open_cart_drawer = false
               }
-          })                                   
-        })
+          });
+          Alpine.store('xModal', {
+            activeElement: null,
+
+            setActiveElement(name) {
+              this.activeElement = name;
+              document.body.style.overflow = 'hidden';
+            },
+
+            removeFocus() {
+              this.activeElement = null;
+              document.body.style.overflow = '';
+            }
+          });
+          Alpine.store('xHeaderMenu', {
+            overlay: true,
+            isSticky: false,  
+            openMenu() {
+              this.overlay = true;
+            },
+            closeMenu() {
+              this.overlay = false;
+            }
+          });
+        });
+
+      function open(refName) {
+        const el = document.querySelector(`[x-ref="${refName}"]`);
+        if (!el) return;
+
+        el.classList.remove('hidden', 'popup-hidden');
+      }
+
+      function close(refName) {
+        const el = document.querySelector(`[x-ref="${refName}"]`);
+        if (!el) return;
+
+        el.classList.add('popup-hidden');
+
+        setTimeout(() => {
+          el.classList.add('hidden');
+        }, 300);
+      }
     </script>
     <script src="{{ 'add-to-cart.js' | asset_url }}" defer></script>
     <script src="{{ 'notification.js' | asset_url }}" defer></script>
