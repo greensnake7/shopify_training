@@ -1,4 +1,4 @@
-{%  style %}
+{% style %}
   .cart-drawer__overlay {
     position: fixed;
     inset: 0;
@@ -68,12 +68,12 @@
     margin-bottom: 1rem;
   }
 {% endstyle %}
-<div id="cart-drawer">
-<div class="cart-drawer__overlay"></div>
-<div class="cart-drawer">
+<div x-data id="cart-drawer">
+<div  x-show="$store.cart.open_cart_drawer" :class="{ 'is-visible': $store.cart.open_cart_drawer }" class="cart-drawer__overlay"></div>
+<div  x-show="$store.cart.open_cart_drawer" :class="{ 'is-open': $store.cart.open_cart_drawer }" class="cart-drawer">
   <div class="cart-drawer__header">
     <h2>Your Cart</h2>
-    <button class="cart-drawer__close-button" aria-label="Close cart drawer">
+    <button @click="$store.cart.closeCartDrawer()" class="cart-drawer__close-button" aria-label="Close cart drawer">
       {{ 'icon-close.svg' | inline_asset_content }}
     </button>
   </div>

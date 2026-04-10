@@ -1,6 +1,8 @@
 /** Critical CSS for the theme. This file is included on every page. */
 
 /* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
+/* @import "tailwindcss"; */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,7 +19,7 @@ html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
   overflow: hidden;
 }
 
-img,
+/* img,
 picture,
 video,
 canvas,
@@ -25,7 +27,7 @@ svg {
   display: block;
   max-width: 100%;
   height: auto;
-}
+} */
 
 input,
 textarea,

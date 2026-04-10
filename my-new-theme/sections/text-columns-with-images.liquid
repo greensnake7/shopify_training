@@ -10,23 +10,11 @@
     padding-top: {{ section.settings.top_padding_desktop }}px;
     padding-bottom: {{ section.settings.bottom_padding_desktop }}px;
   }
-  .pb-8 {
-    padding-bottom: 2rem;
-  }
-  .pt-8 {
-    padding-top: 2rem;
-  }
-  .pb-3 {
-    padding-bottom: 0.75rem;
-  }
-  .pt-3 {
-    padding-top: 0.75rem;
-  }
 
   .text-columns-with-images__heading {
     font-size: calc({{ section.settings.heading_size }} /100 * 2.7rem) ;
-    text-align: center;
   }
+
   .button--primary {
     border: none;
     background-color: rgb(38, 61, 48);
@@ -37,27 +25,9 @@
     background-color: transparent;
     color: rgb(31, 31, 31);
   }
-  .button {
-    transition: transform 0.3s ease;
-    cursor: pointer;
-  }
-  .button:hover {
-    transform: scale(0.95);
-    opacity: 0.9;
-  }
+
   .spinner {
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #3498db;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
     margin: 0 auto;
-    display: none;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
   }
 
   .bg-section {
@@ -66,13 +36,7 @@
   .bg-column {
     background-color: {% if section.settings.secondary_background == 'column_background' %} {{ section.settings.background_color_light }} {% else %} transparent {% endif %};
   }
-  .text-[#acacac] {
-    color: #acacac;
-  }
 
-  .bg-[#c9c9c9] {
-    background-color: #c9c9c9;
-   }
   .h1, .h2, .h3, .h4, .h5, .h6, .p {
     
     text-transform: none;
@@ -83,62 +47,37 @@
     color: rgba(31, 31, 31);
     line-height: 1.25;
   }
-  .w-full {
-    width: 100%;
-  }
-  .h-full {
-    height: 100%;
-  }
-  .top-0 {
-    top: 0;
-  }
-  .left-0 {
-    left: 0;
-  }
+
   .grid {
     display: grid;
+    justify-content: center;
     grid-template-columns: repeat({{ section.settings.column_layout_on_desktop }}, 1fr);
     gap: {{ section.settings.block_spacing_desktop }}px;
   }
-  .grid-item {
-    display: flex;
-    {% if section.settings.image_position_desktop == 'top' %} flex-direction: column; {% else %} flex-direction: column-reverse; {% endif %}
-  }
-  
+
   .text-columns-with-images__column-content--left{  text-align: left; }
   .text-columns-with-images__column-content--right{  text-align: right; }
   .text-columns-with-images__column-content--center{  text-align: center; }
   
   .text-columns-with-images__image-style--square {
     aspect-ratio: 1 / 1;
-    object-fit: cover;
-    overflow: hidden;
   }
   .text-columns-with-images__image-style--rectangle {
     aspect-ratio: 4 / 3;
-    object-fit: cover;
-    overflow: hidden;
   }
   .text-columns-with-images__image-style--landscape {
     aspect-ratio: 16 / 9;
-    object-fit: cover;
-    overflow: hidden;
   }
   .text-columns-with-images__image-style--standard {
     aspect-ratio: 3 / 4;
-    object-fit: cover;
-    overflow: hidden;
   }
   .text-columns-with-images__image-style--round {
     aspect-ratio: 1 / 1;
-    object-fit: cover;
     border-radius: 50%;
-    overflow: hidden;
   }
   .text-columns-with-images__image-style--natural {
     width: 100%;
     height: auto;
-    object-fit: cover;
   }
   @media screen and (max-width: 768px) {
   .section-{{ section.id }}-padding {
@@ -146,32 +85,20 @@
     padding-bottom: {{ section.settings.bottom_padding_mobile }}px;
   }
 
-  .pb-3 {
-    padding-bottom: 0.75rem;
-  }
-  .pt-3 {
-    padding-top: 0.75rem;
-  }
-
   .text-columns-with-images__heading {
     font-size: calc({{ section.settings.heading_size }}/ 100 * 1.62rem);
-    text-align: center;
   }
   .grid {
     display: grid;
     grid-template-columns: unset;
+    justify-content: left; 
     grid-auto-flow: column;
     grid-auto-columns: {{ 100 | divided_by: section.settings.column_layout_on_mobile }}%; 
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: {{ section.settings.block_spacing_mobile }}px;
   }
-  .grid-item {
-    display: flex;
-    {% if section.settings.image_position_mobile == 'top' %} flex-direction: column; {% else %} flex-direction: column-reverse; {% endif %}
-    scroll-snap-align: start;
-    width: 100% ;
-  }
+
   }
 
 
@@ -179,32 +106,29 @@
 
 
 <div class="bg-section text-columns-with-images section section-{{ section.id }}-padding {% if section.settings.enable_carousel_on_desktop %}carousel{% endif %} {% if section.settings.enable_swipe_on_mobile %}swipe{% endif %} {% if section.settings.enable_next_previous_arrows_on_mobile %}next-previous-arrows{% endif %} {% if section.settings.make_section_full_width_desktop %}full-width-desktop{% endif %} {% if section.settings.make_section_full_width_mobile %}full-width-mobile{% endif %}">
-  <div class="page-width">
+  <div class="page-width pr-5 pl-5">
     {% if section.settings.section_heading != blank %}
-      <div class="pb-3 pb-8">
-        <div class="text-columns-with-images__heading h2">{{ section.settings.section_heading }}</div>
+      <div class="pb-3 md:pb-8">
+        <div class="text-columns-with-images__heading text-center h2">{{ section.settings.section_heading }}</div>
       </div>
     {% endif %}
-        <div class="grid ">
+        <div class="grid">
             {% for block in section.blocks %}
-                <div class=" grid-item bg-column text-columns-with-images__column-content--{{ section.settings.column_content_alignment }} text-columns-with-images__position--{{ section.settings.image_position }}">
-                    <div class =" text-columns-with-images__image text-columns-with-images__image-style--{{ section.settings.image_style }}">
+                <div class=" flex {% if section.settings.image_position_mobile == 'top' %}flex-col{% else %}flex-col-reverse{% endif %} {% if section.settings.image_position_desktop == 'top' %}md:flex-col{% else %}md:flex-col-reverse{% endif %} bg-column text-columns-with-images__column-content--{{ section.settings.column_content_alignment }}">
+                    <div class =" text-columns-with-images__image text-columns-with-images__image-style--{{ section.settings.image_style }} object-cover overflow-hidden">
                         {% if block.settings.column_image != blank or block.settings.image_url != blank or block.settings.linked_product != blank or block.settings.linked_collection != blank %}
                             {% assign column_image_url = block.settings.linked_product.featured_image | default: block.settings.linked_collection.image | default: block.settings.image_url | default: block.settings.column_image %}
-                            {{  column_image_url | image_url: width: 2000 | image_tag: 
-                                widths: '225,375,450,600,750,900,1100,1500,1780,2000',
-                                sizes: '
-                                    (min-width: 1024px) 466px,  
-                                    (min-width: 768px) calc((100vw - 5rem) / 2), 
-                                    calc((100vw) / 1)',
-                                loading: 'lazy',
-                                class: 'w-full h-full top-0 left-0 '
-                            }}
+                                {{ column_image_url |image_url: width: 2000 | image_tag:
+                                    widths: '225,375,450,600,750,900,1100,1500,1780,2000',
+                                    sizes: '(min-width: 1024px) 466px, (min-width: 768px) calc((100vw - 5rem)/2), calc(100vw/1)',
+                                    class: 'w-full h-full top-0 left-0 object-cover',
+                                    loading: 'lazy'
+                                }}
                         {% else %}
-                            {{ 'image' | placeholder_svg_tag: 'placeholder-svg w-full h-full top-0 left-0 bg-[#c9c9c9] text-[#acacac]' }}
+                            {{ 'image' | placeholder_svg_tag: 'placeholder-svg w-full h-full top-0 left-0 object-cover bg-[#c9c9c9] text-[#acacac]' }}
                         {% endif %}
                     </div>
-                    <div class="text-columns-with-images__column-text">
+                    <div class="grow md:pl-7 md:pr-7 pl-5 pr-5 pt-4 md:pb-3 pb-2">
                         {% if block.settings.column_heading != blank %}
                             <p class="h3" style="font-size: calc({{ block.settings.heading_size }}/100 * 1.35rem);">{{ block.settings.column_heading }}</p>
                         {% endif %}
@@ -212,7 +136,7 @@
                             <p class="text-columns-with-images__column-content">{{ block.settings.column_text }}</p>
                         {% endif %}
                         {% if block.settings.button_label != blank and block.settings.linked_product == empty and block.settings.linked_collection == empty  %}
-                            <button  class="w-full pb-3 pt-3 button button--{{ block.settings.button_style }}"
+                            <button  class="w-full pb-3 pt-3 cursor-pointer transition-transform duration-300 ease-in hover:scale-95 hover:opacity-90 button--{{ block.settings.button_style }}"
                                 onclick="window.open('{{ block.settings.button_url | default: '#' }}', '{% if block.settings.open_button_link_in_a_new_window %}_blank{% else %}_self{% endif %}')"
                                 {% if block.settings.open_button_link_in_a_new_window %} target="_blank" rel="noopener"{% endif %}>
                                 {{ block.settings.button_label }}
@@ -220,21 +144,82 @@
                         {% endif %}
                         {% if block.settings.linked_product != blank %}
                             {% if block.settings.linked_product.variants_count == 1 %}
-                                <button class="add-to-cart-button button w-full pb-3 pt-3 button--{{ block.settings.button_style }}" 
-                                    data-variant-id="{{ block.settings.linked_product.selected_or_first_available_variant.id }}">
+                              <div x-data >
+                                <button class="add-to-cart-button cursor-pointer transition-transform duration-300 ease-in hover:scale-95 hover:opacity-90 w-full pb-3 pt-3 button--{{ block.settings.button_style }}" 
+                                    data-variant-id="{{ block.settings.linked_product.selected_or_first_available_variant.id }}"
+                                    @click="$store.cart.addToCart($el.dataset.variantId)"
+                                >
                                     {% if block.settings.linked_product.selected_or_first_available_variant.available %}
-                                        <span class="button-text">Add to cart</span>
-                                        <div class="spinner"></div>
+                                        <span x-show="!$store.cart.loading" class="button-text">Add to cart</span>
+                                        <div x-show="$store.cart.loading" class="spinner block w-5 h-5 animate-spin border-solid border-2 border-white border-t-solid border-t-2 border-t-blue-300 rounded-full "></div>
                                     {% else %}
                                         <span class="button-text">Sold out </span>
                                     {% endif %}
                                 </button>
+                                {% comment %} <script>
+                                    document.addEventListener('alpine:init',() => {
+                                        Alpine.data('addToCart',() => ({
+                                            loading: false,
+        async addToCart(variantId) {
+            this.loading = true;
+
+            try {
+                const response = await fetch(window.Shopify.routes.root + 'cart/add.js' + '?sections=cart,items-on-cart,header', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        items: [
+                            {
+                                id: variantId,
+                                quantity: 1
+                            }
+                        ]
+                    })
+                });
+                console.log('Add to cart response:', response);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Product added to cart:', data);
+                    const header = document.querySelector('#header');
+                    if (header) {
+                        header.outerHTML = data.sections.header;
+                    }
+
+                    const itemOnCart = document.querySelector('.cart-drawer__content');
+                    console.log('Cart drawer element:', itemOnCart);
+                    if (itemOnCart) {
+                        itemOnCart.outerHTML = data.sections['items-on-cart'];
+                        
+                    }
+
+                    showNotification('Sản phẩm đã thêm vào giỏ hàng', 'success');
+                    {% comment %} openCartDrawer(); {% endcomment %}
+                }
+            } catch (error) {
+                console.log(error);
+                showNotification('Lỗi: ' + error.message, 'error');
+            } finally {
+                this.loading = false;
+                this.open_cart_drawer = true;
+            }
+        },
+
+                                        }))
+                                    
+                                    })
+
+                                </script> {% endcomment %}
+                              </div>
                             {% else %}
-                                <button class="w-full pb-3 pt-3 button button--{{ block.settings.button_style }}"
+                                <button class="w-full pb-3 pt-3 cursor-pointer transition-transform duration-300 ease-in hover:scale-95 hover:opacity-90 button--{{ block.settings.button_style }}"
                                         onclick="window.open('{{ block.settings.linked_product.url }}', '{% if block.settings.open_button_link_in_a_new_window %}_blank{% else %}_self{% endif %}')"`
                                         {% if block.settings.open_button_link_in_a_new_window %} target="_blank" rel="noopener"{% endif %}>
                                     <span class="button-text">View product</span>
-                                    <div class="spinner"></div>
+                                    <div class="spinner w-5 h-5 hidden animate-spin border-solid border-2 border-white border-t-solid border-t-2 border-t-blue-300 rounded-full"></div>
                                 </button>
                             {% endif %}
                         {% endif %}
@@ -244,6 +229,13 @@
             {% endfor %}
         </div>
   </div>
+</div>
+<div x-data="{ open: false, toggle() { this.open = ! this.open } }">
+    <button @click="toggle()">Toggle Content</button>
+ 
+    <div x-show="open">
+        Content...
+    </div>
 </div>
 
 {% schema %}

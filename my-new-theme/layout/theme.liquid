@@ -18,7 +18,9 @@
     {% endunless %}
 
     {% # Load and preload the critical CSS %}
+    {{ 'tailwind-output.css' | asset_url | stylesheet_tag }}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
@@ -26,6 +28,7 @@
     {{ content_for_header }}
 
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4/dist/css/splide.min.css"> -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
 
   <body>
@@ -58,6 +61,69 @@
        });
       });
     </script> {% endcomment %}
+    <script>
+        document.addEventListener('alpine:init',() => {
+          Alpine.store('cart', {
+              loading: false,
+              open_cart_drawer: false,
+              async addToCart(variantId) {
+            this.loading = true;
+
+            try {
+                const response = await fetch(window.Shopify.routes.root + 'cart/add.js' + '?sections=cart,items-on-cart,header', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        items: [
+                            {
+                                id: variantId,
+                                quantity: 1
+                            }
+                        ]
+                    })
+                });
+                console.log('Add to cart response:', response);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Product added to cart:', data);
+                    const header = document.querySelector('#header');
+                    if (header) {
+                        header.outerHTML = data.sections.header;
+                    }
+
+                    const itemOnCart = document.querySelector('.cart-drawer__content');
+                    console.log('Cart drawer element:', itemOnCart);
+                    if (itemOnCart) {
+                        itemOnCart.innerHTML = data.sections['items-on-cart'];
+                        
+                    }
+
+                    showNotification('Sản phẩm đã thêm vào giỏ hàng', 'success');
+                    this.openCartDrawer();
+                }
+            } catch (error) {
+                console.log(error);
+                showNotification('Lỗi: ' + error.message, 'error');
+            } finally {
+                this.loading = false;
+                {% comment %} this.open_cart_drawer = true; {% endcomment %}
+            }
+              },
+              openCartDrawer() {
+                this.open_cart_drawer = true
+              },
+              closeCartDrawer() {
+                this.open_cart_drawer = false
+              }
+          })                                   
+        })
+    </script>
     <script src="{{ 'add-to-cart.js' | asset_url }}" defer></script>
+    <script src="{{ 'notification.js' | asset_url }}" defer></script>
+    <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
   </body>
 </html>
