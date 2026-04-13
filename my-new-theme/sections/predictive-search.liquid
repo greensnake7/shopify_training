@@ -1,0 +1,112 @@
+{% style %}
+.background-header {
+    background: rgb(255, 255, 255);
+}
+.justify-left {
+    justify-content: left; 
+}
+.w-12 {
+    width: 3rem;
+}
+.h-12 {
+    height: 3rem;
+}
+
+{% endstyle %}
+{% if predictive_search.performed %}
+  <div class="background-header shadow pt-6">
+
+    <div class="max-h-[60vh] overflow-auto scrollbar-body">
+      <div class="flex-1">
+      {% if predictive_search.resources.pages.size > 0 %}
+        {% if settings.search_results == 'all_content' or settings.search_results == 'products_and_page' or settings.search_results == 'products_page_and_article' %}
+            <h2 class="pl-6 pr-6 uppercase font-bold">Page</h2>
+            {% for page in predictive_search.resources.pages %}
+                <a href="{{ page.url }}" class="flex gap-3 p-3 justify-left">
+                    <div>
+                        <p class="decoration-solid">{{ page.title }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+      {% endif %}
+      {% if predictive_search.resources.products.size > 0 %}
+        
+        <h2 class="pl-6 pr-6 uppercase font-bold">Products</h2>
+
+        {% for product in predictive_search.resources.products %}
+          <a href="{{ product.url }}" class="flex gap-3 p-3 justify-left">
+
+            <div> 
+               {% if product.featured_image %}
+                   {{ product.featured_image | image_url: width: 100 | image_tag: 
+                      class: 'w-12 h-12 object-cover',
+                      loading: 'lazy'}}
+               {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'w-12 h-12 object-cover' }}
+               {% endif %}
+            </div>
+
+            <div>
+              <p>{{ product.title }}</p>
+              {% if settings.show_price %}
+                <p>{{ product.price | money }} </p>
+              {% endif %}
+            </div>
+
+          </a>
+        {% endfor %}
+      {% endif %}
+      {% if predictive_search.resources.collections.size > 0 %}
+        {% if settings.search_results == 'all_content' or settings.search_results == 'products_and_collection' %}
+            <h2 class="pl-6 pr-6 uppercase font-bold">Collections</h2>
+            {% for collection in predictive_search.resources.collections %}
+                <a href="{{ collection.url }}" class="flex gap-3 p-3 justify-left">
+                    <div> 
+                        {% if collection.featured_image %}
+                            {{ collection.featured_image | image_url: width: 100 | image_tag: 
+                            class: 'w-12 h-12 object-cover',
+                            loading: 'lazy'}}
+                        {% else %}
+                            {{ 'product-1' | placeholder_svg_tag: 'w-12 h-12 object-cover' }}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>{{ collection.title }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+      {% endif %}
+      {% if predictive_search.resources.articles.size > 0 %}
+        {% if settings.search_results == 'all_content' or settings.search_results == 'products_page_and_article' %}
+            <h2 class="pl-6 pr-6 uppercase font-bold">Articles</h2>
+            {% for article in predictive_search.resources.articles %}
+                <a href="{{ article.url }}" class="flex gap-3 p-3 justify-left">
+                    <div> 
+                        {% if article.image %}
+                            {{ article.image | image_url: width: 100 | image_tag: 
+                            class: 'w-12 h-12 object-cover',
+                            loading: 'lazy'}}
+                        {% else %}
+                            {{ 'product-1' | placeholder_svg_tag: 'w-12 h-12 object-cover' }}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>{{ article.title }}</p>
+                        <p class="italic">{{ article.author }} </p>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+      {% endif %}
+      </div>
+
+    </div>
+    {% if settings.show_view_more_button %}
+        <a href="{{ routes.search }}" pt-5 pb-5 pl-6 pr-6 border-solid rounded-none inline-block cursor-pointer text-center w-full text-current border-t>
+            View all
+        </a>
+    {% endif %}
+  </div>
+{% endif %}

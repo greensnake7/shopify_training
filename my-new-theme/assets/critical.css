@@ -1,4 +1,4 @@
-/** Critical CSS for the theme. This file is included on every page. */
+/*  Critical CSS for the theme. This file is included on every page. */
 
 /* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
 /* @import "tailwindcss"; */
@@ -117,4 +117,3 @@ body {
 .shopify-section > .full-width {
   grid-column: 1 / -1;
 }
-

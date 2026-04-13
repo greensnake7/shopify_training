@@ -42,7 +42,33 @@
               <div class="max-w-[62rem] mr-auto ml--auto w-full">
                 <div class="relative field rtl:flex-row-reverse rtl:md:flex-row pr-5 lg:pr-0 flex pl-5 lg:pl-o">
                   <form if="form-search-header-search-block" class="grow" action="{{ routes.search_url }}" method="get" role="search">
-                    <input class="peer input-search focus-visible:outline-none pt-4 pb-4 border-b pr-[4.5rem] pl-4 lg:pl-2 lg:pr-20 text-left w-full appearance-none relative outline-none bg-transparent placeholder:text-current placeholder:opacity-60" type="search" name="q" placeholder="Search">  
+                    <input x-data="search" x-model="query" @input.debounce.300ms="fetchResults" class="peer input-search focus-visible:outline-none pt-4 pb-4 border-b pr-[4.5rem] pl-4 lg:pl-2 lg:pr-20 text-left w-full appearance-none relative outline-none bg-transparent placeholder:text-current placeholder:opacity-60" type="search" name="q" value  placeholder="Search">
+                    <script>
+                      document.addEventListener('alpine:init', () => {
+                        Alpine.data('search', () => ({
+                          query: '',
+                          async fetchResults() {
+                            console.log(this.query);
+                            if (!this.query) return
+                            const res = await fetch(`${window.Shopify.routes.root}search/suggest?q=${this.query}&resources[type]=product,collection,article,page&section_id=predictive-search`);
+                            const text = await res.text();
+                            const newResult = new DOMParser().parseFromString(text, 'text/html').querySelector('#shopify-section-predictive-search').innerHTML;
+                            const result = document.querySelector('#search-result');
+                            if( result ) {
+                              console.log(result);
+                              result.innerHTML = newResult
+                            }
+                          }
+                        }))
+                      })
+                    </script>
+                    <button class="btn-search absolute none_border w-7 h-7 pt-1 pb-1 pl-1 pr-1 top-1/2 -translate-y-1/2 opacity-60 bg-none text-current lg:right-2 right-7" aria-label="Search">
+                      <svg class="icon-animation icon-animation" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                        <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M11.192 20.223C16.5 20.223 20.803 15.92 20.803 10.612S16.5 1 11.192 1 1.58 5.303 1.58 10.612s4.304 9.611 9.612 9.611 M17.706 18.301 22.405 23"></path>
+                      </svg>
+                    </button>
+                    <div id="search-result" class="md:max-h-96 absolute top-[calc(100%+12px)] w-full left-0" tabindex="-1" data-predictive-search>
+                    </div> 
                   </form>  
                 </div>  
               </div>
@@ -135,6 +161,7 @@
     display: flex;
     gap: 1rem;
   }
+
 {% endstylesheet %}
 
 {% schema %}

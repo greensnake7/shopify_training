@@ -136,11 +136,11 @@
           },
           {
             "value": "products_page_and_article",
-            "label": "Product, page and article"
+            "label": "Products, page and article"
           },
           {
-            "value": "product_and_page",
-            "label": "Product and page"
+            "value": "products_and_page",
+            "label": "Products and page"
           }
         ]
       },
