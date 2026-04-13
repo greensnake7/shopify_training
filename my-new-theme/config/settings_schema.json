@@ -120,26 +120,26 @@
         "label": "Search results",
         "id": "search_results",
         "info": "Setup the same as settings in the Search & Discovery app > Settings > Search relevance in admin. If the two values are different, the expected search results cannot be shown when searching, which might cause customers' confusion.",
-        "default": "all_content",
+        "default": "product,collection,article,page",
         "options": [
           {
-            "value": "all_content",
+            "value": "product,collection,article,page",
             "label": "All content"
           },
           {
-            "value": "products_only",
+            "value": "product",
             "label": "Products only"
           },
           {
-            "value": "products_and_collection",
+            "value": "product,collection",
             "label": "Products and collection"
           },
           {
-            "value": "products_page_and_article",
+            "value": "product,page,article",
             "label": "Products, page and article"
           },
           {
-            "value": "products_and_page",
+            "value": "product,page",
             "label": "Products and page"
           }
         ]

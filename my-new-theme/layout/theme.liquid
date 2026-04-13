@@ -145,7 +145,7 @@
           });
         });
 
-      function open(refName) {
+      {% comment %} function open(refName) {
         const el = document.querySelector(`[x-ref="${refName}"]`);
         if (!el) return;
 
@@ -161,7 +161,7 @@
         setTimeout(() => {
           el.classList.add('hidden');
         }, 300);
-      }
+      } {% endcomment %}
     </script>
     <script src="{{ 'add-to-cart.js' | asset_url }}" defer></script>
     <script src="{{ 'notification.js' | asset_url }}" defer></script>
