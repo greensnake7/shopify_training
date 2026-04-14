@@ -59,6 +59,12 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
+h1, h2, h3, h4, h5, h6 {
+  font-family: Cormorant, serif;
+  font-style: normal;
+  line-height: 1.25;
+  font-weight: 400;
+}
 
 p:empty {
   display: none;
