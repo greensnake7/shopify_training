@@ -1,104 +1,125 @@
-{% style %}
-.background-header {
-    background: rgb(255, 255, 255);
-}
-.justify-left {
-    justify-content: left; 
-}
-.w-12 {
-    width: 3rem;
-}
-.h-12 {
-    height: 3rem;
-}
 
-{% endstyle %}
 {% if predictive_search.performed %}
-  <div class="background-header shadow pt-6">
-
-    <div class="max-h-[60vh] overflow-auto scrollbar-body">
-      <div class="flex-1">
+  <div class="background-header search-page:bg-[rgba(255,255,255)] shadow-[0_0_6px_-4px_rgba(31,31,31)] pt-6 pb-7">
+   <div id="predictive-search-results" class="overflow-auto max-h-[60vh] search-page:max-h-[45vh] scrollbar-body">
+   <div class="content-results-vertical">
+    <div class="predictive-search-results-list search-result-query-and-page grow lg:flex">
+      <div class="query-and-page-content flex-1">
       {% if predictive_search.resources.pages.size > 0 %}
-        {% if settings.search_results == 'all_content' or settings.search_results == 'products_and_page' or settings.search_results == 'products_page_and_article' %}
-            <h2 class="pl-6 pr-6 uppercase font-bold">Page</h2>
+            <h2 class="predictive-search-heading pl-6 pr-6 lg:pl-10 lg:pr-10 pb-2 md:pb-5 uppercase pt-6 lg:pt-2 body-text-base-size">Page</h2>
             {% for page in predictive_search.resources.pages %}
-                <a href="{{ page.url }}" class="flex gap-3 p-3 justify-left">
+                <a href="{{ page.url }}" class="search_heading predictive-search-item nav-link relative hover-text-link">
                     <div>
                         <p class="decoration-solid">{{ page.title }}</p>
                     </div>
                 </a>
             {% endfor %}
-        {% endif %}
       {% endif %}
-      {% if predictive_search.resources.products.size > 0 %}
-        
-        <h2 class="pl-6 pr-6 uppercase font-bold">Products</h2>
-
+      </div>
+    </div>
+    <div class="border-t flex-shrink-0"></div>
+    <div class="predictive-search-results-list predictive-search-others lg:flex lg:pt-5">
+      <div class="flex-1">
+      {% if predictive_search.resources.products.size > 0 %}      
+        <h2 class="predictive-search-heading pl-6 pr-6 lg:pl-10 lg:pr-10 pb-2 md:pb-5 uppercase pt-6 lg:pt-2 body-text-base-size">Products</h2>
+        <ul role="listbox" aria-labelledby="predictive-search-products" class="predictive-result-item grid grid-cols-1 gap-2 pl-6 pr-6 lg:pl-10 lg:pr-10 pb-2.5">
         {% for product in predictive_search.resources.products %}
-          <a href="{{ product.url }}" class="flex gap-3 p-3 justify-left">
-
-            <div> 
-               {% if product.featured_image %}
-                   {{ product.featured_image | image_url: width: 100 | image_tag: 
-                      class: 'w-12 h-12 object-cover',
-                      loading: 'lazy'}}
-               {% else %}
-                    {{ 'product-1' | placeholder_svg_tag: 'w-12 h-12 object-cover' }}
-               {% endif %}
+          <li class="pt-2 pb-2" role="option" aria-selected="false">
+          <a href="{{ product.url }}" class="flex gap-4 relative disable-effect h-full">
+            <div class="w-24 relative">
+              <div class="relative overflow-hidden w-full float-left before:h-0 before:block before:pb-[100.0%]"> 
+                <div class="bg-[#c9c9c9] absolute top-0 left-0 w-full h-full"> 
+                   {% if product.featured_image %}
+                        {{ product.featured_image | image_url: width: 100 | image_tag: 
+                            class: 'w-full h-full object-cover',
+                            loading: 'lazy'}}
+                    {% else %}
+                        {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover' }}
+                    {% endif %}
+                </div>
+              </div>
             </div>
 
-            <div>
-              <p>{{ product.title }}</p>
+            <div class="flex-1">
+              <div class="mb-2">
+              <p class="p-break-words leading-tight duration-200 transition hover-text-link text-[rgba(31,31,31)]">{{ product.title  }}</p>
+              </div>
               {% if settings.show_price %}
-                <p>{{ product.price | money }} </p>
+                <div class="price leading-none">
+                <s class="cap rtl:inline-block price-compare rtl:leading-tight text-[80%]" > {{ product.compare_at_price | money}} </s>
+                <span class="price-scale selection:bg-text-[rgb(112,36,36,0.2)] ml-1 rtl:mr-1 rtl:ml-0">{{ product.price | money }} </span>
+                </div>
               {% endif %}
             </div>
 
           </a>
+          </li>
         {% endfor %}
+        </ul>
       {% endif %}
+      </div>
+      <div class="line-spacing flex-shrink-0"></div>
+      <div class="flex-1">
       {% if predictive_search.resources.collections.size > 0 %}
-        {% if settings.search_results == 'all_content' or settings.search_results == 'products_and_collection' %}
-            <h2 class="pl-6 pr-6 uppercase font-bold">Collections</h2>
+            <h2 class="predictive-search-heading flex-1 pl-6 pr-6 lg:pl-10 lg:pr-10 pb-2 md:pb-5 uppercase pt-6 lg:pt-2 body-text-base-size">Collections</h2>
+            <div class="predictive-result-item flex-1 pb-2.5 pl-6 pr-6 lg:pl-10 lg:pr-10 gap-2">
+               
             {% for collection in predictive_search.resources.collections %}
-                <a href="{{ collection.url }}" class="flex gap-3 p-3 justify-left">
-                    <div> 
+            <div class="block pt-2 pb-2"> 
+                <a href="{{ collection.url }}" class="flex relative disable-effect h-full">
+                    <div class="w-24 relative">
+                        <div class="relative overflow-hidden w-full float-left before:h-0 before:block before:pb-[75%]">
+                            <div class="bg-[#c9c9c9] absolute top-0 left-0 w-full h-full"> 
                         {% if collection.featured_image %}
                             {{ collection.featured_image | image_url: width: 100 | image_tag: 
-                            class: 'w-12 h-12 object-cover',
+                            class: 'w-full h-full object-cover absolute left-0 z-0 image-hover',
                             loading: 'lazy'}}
                         {% else %}
-                            {{ 'product-1' | placeholder_svg_tag: 'w-12 h-12 object-cover' }}
+                            {{ 'product-1' | placeholder_svg_tag: 'absolute w-full h-full object-cover left-0 z-0 image-hover bg-[#c9c9c9]' }}
                         {% endif %}
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <p>{{ collection.title }}</p>
+                    <div class="pt-2 ml-5 flex-1">
+                        <p class="search_heading hover-text-link disable-effect p-break-words leading-tight duration-200 transition hover-text-link text-[rgba(31,31,31)]">{{ collection.title }}</p>
                     </div>
                 </a>
+            </div>
             {% endfor %}
-        {% endif %}
+            
+            </div>
       {% endif %}
+      </div>
+      <div class="line-spacing flex-shrink-0"></div>
+      <div class="flex-1">
       {% if predictive_search.resources.articles.size > 0 %}
-        {% if settings.search_results == 'all_content' or settings.search_results == 'products_page_and_article' %}
-            <h2 class="pl-6 pr-6 uppercase font-bold">Articles</h2>
+            <h2 class="predictive-search-heading pl-6 pr-6 lg:pl-10 lg:pr-10 pb-2 md:pb-5 uppercase pt-6 lg:pt-2 body-text-base-size">Articles</h2>
+            <div class="predictive-result-item flex-1 pb-2.5 pl-6 pr-6 lg:pl-10 lg:pr-10 gap-2">
+            
             {% for article in predictive_search.resources.articles %}
-                <a href="{{ article.url }}" class="flex gap-3 p-3 justify-left">
-                    <div> 
+            <div class="block pt-2 pb-2">
+                <a href="{{ article.url }}" class="flex relative disable-effect h-full">
+                    <div class="w-24 relative"> 
+                        <div class="relative overflow-hidden w-full float-left before:h-0 before:block before:pb-[75%]">
+                            <div class="bg-[#c9c9c9] absolute top-0 left-0 w-full h-full">
                         {% if article.image %}
                             {{ article.image | image_url: width: 100 | image_tag: 
-                            class: 'w-12 h-12 object-cover',
+                            class: 'w-full h-full object-cover absolute left-0 z-0 image-hover',
                             loading: 'lazy'}}
                         {% else %}
-                            {{ 'product-1' | placeholder_svg_tag: 'w-12 h-12 object-cover' }}
+                            {{ 'product-1' | placeholder_svg_tag: 'absolute w-full h-full object-cover left-0 z-0 image-hover bg-[#c9c9c9]' }}
                         {% endif %}
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <p>{{ article.title }}</p>
-                        <p class="italic">{{ article.author }} </p>
+                    <div class="pt-1 ml-5 flex-1">
+                        <p class="search_heading line-clamp-2 hover-text-link disable-effect p-break-words leading-tight duration-200 transition hover-text-link text-[rgba(31,31,31)]">{{ article.title }}</p>
                     </div>
                 </a>
+            </div>
             {% endfor %}
-        {% endif %}
+            
+            </div>
       {% endif %}
       </div>
 
@@ -108,5 +129,7 @@
             View all
         </a>
     {% endif %}
+   </div>
+   </div>
   </div>
 {% endif %}

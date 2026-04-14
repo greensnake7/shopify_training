@@ -76,7 +76,8 @@ p:empty {
 
 /** Theme styles below */
 body {
-  font-family: var(--font-primary--family);
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
   background-color: var(--color-background);
   color: var(--color-foreground);
 }
